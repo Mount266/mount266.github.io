@@ -1,1 +1,393 @@
-hello world
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蜀 锦</title>
+    <!-- import Vue before Element -->
+    <script src="./lib/vue.js"></script>
+    <!-- import CSS -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    <link rel="stylesheet" href="./lib/theme-chalk/index.css">
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="./lib/index.js"></script>
+    <link rel="stylesheet" href="index.css">
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/1.0.1/vconsole.min.js"></script> -->
+    
+    <style>
+        .el-carousel__item h3 {
+          color: #475669;
+          font-size: 14px;
+          opacity: 0.75;
+          line-height: 150px;
+          margin: 0;
+        }
+      
+        /* .el-carousel__item:nth-child(2n) {
+           background-color: #99a9bf;
+        }
+        
+        .el-carousel__item:nth-child(2n+1) {
+           background-color: #d3dce6;
+        } */
+      </style>
+</head>
+<body>
+    <iframe id="iframe" src="shujin.html"></iframe>
+    <!-- <div class="logo"></div> -->
+    <div id="app">
+        <div class="home-panle">
+            <div class="carousel-head"></div>
+            <div class="enter"></div>
+            <div class="slogan"></div>
+            <div class="carousel-footer"></div>
+        </div>
+        <div class="carousel-panle">
+            <!-- <span class="demonstration">title</span> -->
+            <el-carousel 
+            trigger="click" 
+            indicator-position="none" 
+            arrow="never"
+            :autoplay="false"  
+            :height=" bannerHeight + 'px' " 
+            ref="carousel" 
+            @change="change">
+                <!-- <el-carousel-item v-for="item in 10" :key="item">
+                <h3 class="small">{{ item }}</h3>
+                </el-carousel-item> -->
+                <el-carousel-item v-for="(img,index) in imgList" :key="index">
+                    <img :src="img.url[0]" class="item-headline">
+                    <img :src="img.url[1]" class="item-img" @click="click(index)">
+                    <!-- <img :src="img.url[2]" class="item-subhead"> -->
+                </el-carousel-item>
+            </el-carousel>
+            <div class="carousel-head"></div>
+            <div class="carousel-subhead" :style="{backgroundImage:'url(\''+bgImg+'\')'}"></div>
+            <div class="prev-arrow" @click="arrowClick('prev')"></div>
+            <div class="next-arrow" @click="arrowClick('next')"></div>
+            <div class="carousel-footer"></div>
+        </div>
+        <div class="btn-panle">
+            <button id="back" class="btn left"><span class="btn-img" style="background-image:url('./img/back.png');"></span></button>
+            <button id="menu" class="btn right"><span class="btn-img" style="background-image:url('./img/menu.png');"></span></button>
+        </div>
+        <div class="img-panle">
+            
+        </div>
+        <div class="menu-panle">
+            <span>
+                <img src="./img/menu_0.png">
+            </span>
+            <ul style="border-top: 2px solid rgba(255, 255, 255, 0.2); padding-top:40px; border-radius: 6px 6px 0 0">
+                <li><img src="./img/menu_1.png" @click="menu_1"></li>
+                <li><img src="./img/menu_2.png" @click="menu_2"></li>
+                <li><img src="./img/menu_3.png" @click="menu_3"></li>
+            </ul>
+            <ul>
+                <li><img src="./img/menu_4.png" @click="menu_4"></li>
+                <li><img src="./img/menu_5.png" @click="menu_5"></li>
+                <li><img src="./img/menu_6.png" @click="menu_6"></li>
+            </ul>
+            <ul>
+                <li><img src="./img/menu_7.png" @click="menu_7"></li>
+                <li><img src="./img/menu_8.png" @click="menu_8"></li>
+                <li><img src="./img/menu_9.png" @click="menu_9"></li>
+            </ul>
+            <ul style="border-bottom: 2px solid rgba(255, 255, 255, 0.2); padding-bottom:40px; border-radius: 0 0 6px 6px;">
+                <li><img src="./img/menu_10.png" @click="menu_10"></li>
+                <li><img src="./img/menu_11.png" @click="menu_11"></li>
+                <li><img src="./img/menu_12.png" @click="menu_12"></li>
+            </ul>
+            <span style="margin-top:20px">
+                <img src="./img/menu_close.png" @click="menu_close">
+            </span>
+        </div>
+        <div class="tips-panle" :style="{backgroundImage:'url(\''+tipsImg+'\')'}"></div>
+        <div id="btn" class="btn-abc" style="height: 90%;">
+            <ul style="width: 50%; left: 25%;">
+                <li style="width: 50%;"><img src="./img/btn_1.png" @click="btn_1"></li>
+                <li style="width: 50%;"><img src="./img/btn_2.png" @click="btn_2"></li>
+            </ul>
+        </div>
+        <div id="btn-a" class="btn-abc">
+            <ul>
+                <li style="width: 33%;"><img src="./img/btn_a_1.png" @click="btn_a_1"></li>
+                <li style="width: 33%;"><img src="./img/btn_a_2.png" @click="btn_a_2"></li>
+                <li style="width: 33%;"><img src="./img/btn_a_3.png" @click="btn_a_3"></li>
+            </ul>
+        </div>
+        <div id="btn-b" class="btn-abc">
+            <ul>
+                <li><img src="./img/btn_b_1.png" @click="btn_b_1"></li>
+                <li><img src="./img/btn_b_2.png" @click="btn_b_2"></li>
+                <li><img src="./img/btn_b_3.png" @click="btn_b_3"></li>
+                <li><img src="./img/btn_b_4.png" @click="btn_b_4"></li>
+                <li><img src="./img/btn_b_5.png" @click="btn_b_5"></li>
+            </ul>
+        </div>
+        <div id="btn-c" class="btn-abc">
+            <ul>
+                <li><img src="./img/btn_c_1.png" @click="btn_c_1"></li>
+                <li><img src="./img/btn_c_2.png" @click="btn_c_2"></li>
+                <li><img src="./img/btn_c_3.png" @click="btn_c_3"></li>
+                <li><img src="./img/btn_c_4.png" @click="btn_c_4"></li>
+                <li><img src="./img/btn_c_5.png" @click="btn_c_5"></li>
+            </ul>
+        </div>
+        <div id="history"></div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                bgImg: ('./img/subhead_2.png'),
+                imgList:[
+                    {
+                        url:[('./img/headline_2.png'),('./img/2.png'),('./img/subhead_2.png')]
+                    },
+                    {
+                        url:[('./img/headline_3.png'),('./img/3.png'),('./img/subhead_3.png') ]
+                    },
+                    {
+                        url:[('./img/headline_4.png'),('./img/4.png'),('./img/subhead_4.png') ]
+                    },
+                    {
+                        url:[('./img/headline_5.png'),('./img/5.png'),('./img/subhead_5.png') ]
+                    }
+                ],
+                tipsImg: ('./img/tips_1.png'),
+                value: 0,
+                bannerHeight : 100,//图片父容器的高度
+                // screenWidth :0,//屏幕的宽度
+                setting: {
+                    height: 'auto',
+                    autoplay: false,
+                    autoplaySpeed: 2000,
+                    dots: 'inside',
+                    radiusDot: true,
+                    trigger: 'click',
+                    arrow: 'always',
+                    easing: 'ease'
+                },
+                percent: 10
+            },
+            beforeMount:function(){
+                
+            },
+            mounted() {
+                this.slideBanner();
+                // this.screenWidth =  window.innerWidth;
+                this.setSize();
+                window.onresize = () =>{
+                    // this.screenWidth =  window.innerWidth;
+                    this.setSize();
+                };
+            },
+            methods:{
+                click: function (index) {
+                    switch (index) {
+                        case 0:
+                            console.log("index=0");
+                            window.frames['iframe'].contentWindow.page1();
+                            break;
+                        case 1:
+                            console.log("index=1");
+                            window.frames['iframe'].contentWindow.page2();
+                            break;
+                        case 2:
+                            console.log("index=2");
+                            window.frames['iframe'].contentWindow.page3();
+                            break;
+                        case 3:
+                            window.frames['iframe'].contentWindow.page4();
+                            console.log("index=3");
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                },
+                change: function (index, pre) {
+                    // console.log(index, pre);
+                    // var x = document.getElementsByClassName("carousel-subhead");
+                    // x.style.backgroundImage = "url" + this.imgList[index].url[2];
+                    this.bgImg = this.imgList[index].url[2];
+                },
+                menu_1: function () {
+                    window.frames['iframe'].contentWindow.menu1();
+                    this.tipsImg = ('./img/tips_1.png');
+                },
+                menu_2: function () {
+                    window.frames['iframe'].contentWindow.menu2();
+                    this.tipsImg = ('./img/tips_2.png');
+                },
+                menu_3: function () {
+                    window.frames['iframe'].contentWindow.menu3();
+                    this.tipsImg = ('./img/tips_3.png');
+                },
+                menu_4: function () {
+                    window.frames['iframe'].contentWindow.menu4();
+                    this.tipsImg = ('./img/tips_4.png');
+                },
+                menu_5: function () {
+                    window.frames['iframe'].contentWindow.menu5();
+                    this.tipsImg = ('./img/tips_5.png');
+                },
+                menu_6: function () {
+                    window.frames['iframe'].contentWindow.menu6();
+                    this.tipsImg = ('./img/tips_6.png');
+                },
+                menu_7: function () {
+                    window.frames['iframe'].contentWindow.menu7();
+                    this.tipsImg = ('./img/tips_7.png');
+                },
+                menu_8: function () {
+                    window.frames['iframe'].contentWindow.menu8();
+                    this.tipsImg = ('./img/tips_8.png');
+                },
+                menu_9: function () {
+                    window.frames['iframe'].contentWindow.menu9();
+                    this.tipsImg = ('./img/tips_9.png');
+                },
+                menu_10: function () {
+                    window.frames['iframe'].contentWindow.menu10();
+                    this.tipsImg = ('./img/tips_10.png');
+                },
+                menu_11: function () {
+                    window.frames['iframe'].contentWindow.menu11();
+                    this.tipsImg = ('./img/tips_11.png');
+                },
+                menu_12: function () {
+                    window.frames['iframe'].contentWindow.menu12();
+                    this.tipsImg = ('./img/tips_12.png');
+                },
+                btn_1: function () {
+                    window.frames['iframe'].contentWindow.btn1();
+                    console.log("1");
+                },
+                btn_2: function () {
+                    window.frames['iframe'].contentWindow.btn2();
+                    console.log("2");
+                },
+                btn_a_1: function () {
+                    window.frames['iframe'].contentWindow.btnA1();
+                    console.log("a-1");
+                },
+                btn_a_2: function () {
+                    window.frames['iframe'].contentWindow.btnA2();
+                    console.log("a-2");
+                },
+                btn_a_3: function () {
+                    window.frames['iframe'].contentWindow.btnA3();
+                    console.log("a-3");
+                },
+                btn_b_1: function () {
+                    window.frames['iframe'].contentWindow.btnB1();
+                    console.log("b-1");
+                },
+                btn_b_2: function () {
+                    window.frames['iframe'].contentWindow.btnB2();
+                    console.log("b-2");
+                },
+                btn_b_3: function () {
+                    window.frames['iframe'].contentWindow.btnB3();
+                    console.log("b-3");
+                },
+                btn_b_4: function () {
+                    window.frames['iframe'].contentWindow.btnB4();
+                    console.log("b-4");
+                },
+                btn_b_5: function () {
+                    window.frames['iframe'].contentWindow.btnB5();
+                    console.log("b-5");
+                },
+                btn_c_1: function () {
+                    window.frames['iframe'].contentWindow.btnC1();
+                    console.log("c-1");
+                },
+                btn_c_2: function () {
+                    window.frames['iframe'].contentWindow.btnC2();
+                    console.log("c-2");
+                },
+                btn_c_3: function () {
+                    window.frames['iframe'].contentWindow.btnC3();
+                    console.log("c-3");
+                },
+                btn_c_4: function () {
+                    window.frames['iframe'].contentWindow.btnC4();
+                    console.log("c-4");
+                },
+                btn_c_5: function () {
+                    window.frames['iframe'].contentWindow.btnC5();
+                    console.log("c-5");
+                },
+                menu_close: function () {
+                    window.frames['iframe'].contentWindow.menuClose();
+                },
+                arrowClick: function (val) {
+                    if (val === "next") {
+                        // console.log('next');
+                        vm.$refs.carousel.next();
+                    } else {
+                        // console.log('prev');
+                        vm.$refs.carousel.prev();
+                    }
+                },
+                setSize: function () {
+                    // 通过屏幕宽度(图片宽度)计算高度
+                    this.bannerHeight = window.innerHeight;
+                },
+                slideBanner: function(){
+                    //选中item的盒子
+                    var box = document.querySelector('.el-carousel__container');
+                    //手指起点X坐标
+                    var startPoint = 0;
+                    //手指滑动重点X坐标
+                    var stopPoint = 0;
+                    
+                    //重置坐标
+                    var resetPoint =  function(){
+                        startPoint = 0;
+                        stopPoint = 0;
+                    }
+                    //手指按下
+                    box.addEventListener("touchstart",function(e){
+                        //手指按下的时候停止自动轮播
+                        // vm.stopAuto();
+                        //手指点击位置的X坐标
+                        startPoint = e.changedTouches[0].pageX;
+                    });
+                    //手指滑动
+                    box.addEventListener("touchmove",function(e){
+                        //手指滑动后终点位置X的坐标
+                        stopPoint = e.changedTouches[0].pageX;
+                    });
+                    //当手指抬起的时候，判断图片滚动离左右的距离
+                    box.addEventListener("touchend",function(e){
+                        console.log("X1："+startPoint);
+                        console.log("X2："+stopPoint);
+                        if(stopPoint == 0 || startPoint - stopPoint == 0){
+                            resetPoint();
+                            return;
+                        }
+                        if(startPoint - stopPoint > 0){                            
+                            resetPoint();
+                            vm.$refs.carousel.next();
+                            return;
+                        }
+                        if(startPoint - stopPoint < 0){
+                            resetPoint();
+                            vm.$refs.carousel.prev();
+                            return;
+                        }
+                    });
+                },
+            },
+            mount () {
+                window.vm = this
+            }
+        })
+    </script>
+</body>
+</html>
